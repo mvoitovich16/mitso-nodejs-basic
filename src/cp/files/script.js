@@ -1,12 +1,6 @@
-const args = process.argv.slice(2);
+// Этот файл запускается как child process.
+// Просто выводит args и дальше прокидывает stdin -> stdout.
 
-console.log(`Total number of arguments is ${args.length}`);
-console.log(`Arguments: ${JSON.stringify(args)}`);
+process.stdout.write(`args: ${process.argv.slice(2).join(' ')}\n`);
+process.stdin.pipe(process.stdout);
 
-const echoInput = (chunk) => {
-    const chunkStringified = chunk.toString();
-    if (chunkStringified.includes('CLOSE')) process.exit(0);
-    process.stdout.write(`Received from master process: ${chunk.toString()}\n`)
-};
-
-process.stdin.on('data', echoInput);
