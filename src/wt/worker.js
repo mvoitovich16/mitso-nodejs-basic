@@ -1,8 +1,20 @@
-// n should be received from main thread
-const nthFibonacci = (n) => n < 2 ? n : nthFibonacci(n - 1) + nthFibonacci(n - 2);
+// Задание: Worker Threads (worker.js)
+// Получить число из main, посчитать что-то и отправить обратно.
+// Я сделал просто: вернуть квадрат числа (чтоб было видно что посчитал).
 
-const sendResult = () => {
-    // This function sends result of nthFibonacci computations to main thread
-};
+import { parentPort } from 'node:worker_threads';
 
-sendResult();
+if (!parentPort) {
+  throw new Error('No parent port');
+}
+
+parentPort.on('message', (num) => {
+  try {
+    // типа "вычисления"
+    const result = Number(num) * Number(num);
+    parentPort.postMessage(result);
+  } catch (e) {
+    throw e;
+  }
+});
+

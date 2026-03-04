@@ -1,7 +1,2 @@
-My content
-should
-be
-printed
-into
-console
-!
+This is fileToRead.txt
+
